@@ -6,17 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { 
-  Users, 
-  Dumbbell, 
-  Apple,
-  TrendingUp,
-  UserCheck,
-  AlertCircle,
-  ChevronRight,
-  Calendar,
-  Star
-} from 'lucide-react-native';
+import { Users, Dumbbell, Apple, TrendingUp, UserCheck, CircleAlert as AlertCircle, ChevronRight, Calendar, Star } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
 import { router } from 'expo-router';
