@@ -12,15 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
 import { useLocalSearchParams, router } from 'expo-router';
 import { UserRole, useUserRole } from '../../contexts/UserContext';
-import { 
-  User, 
-  Dumbbell, 
-  Apple, 
-  Shield, 
-  Users,
-  CheckCircle,
-  Clock
-} from 'lucide-react-native';
+import { User, Dumbbell, Apple, Shield, Users, CircleCheck as CheckCircle, Clock } from 'lucide-react-native';
 
 const roleIcons = {
   client: User,
