@@ -18,7 +18,8 @@ import {
   Activity,
   Mail,
   UserPlus,
-  Clock
+  Clock,
+  UserCheck
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
@@ -34,6 +35,7 @@ export default function TodayAdminView() {
   const [systemHealth] = useState(98.5);
   const [pendingInvitations] = useState(8);
   const [trialUsers] = useState(23);
+  const [fullyAssignedClients] = useState(89);
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -71,6 +73,10 @@ export default function TodayAdminView() {
 
   const handleNavigateToInvitations = () => {
     router.push('/admin/invitations');
+  };
+
+  const handleNavigateToAssignments = () => {
+    router.push('/admin/client-assignments');
   };
 
   return (
@@ -131,13 +137,13 @@ export default function TodayAdminView() {
             <Text style={styles.statLabel}>Pending Invites</Text>
           </TouchableOpacity>
           
-          <View style={styles.statCard}>
+          <TouchableOpacity style={styles.statCard} onPress={handleNavigateToAssignments}>
             <View style={[styles.statIcon, { backgroundColor: `${colors.info}15` }]}>
-              <Clock size={20} color={colors.info} />
+              <UserCheck size={20} color={colors.info} />
             </View>
-            <Text style={styles.statNumber}>{trialUsers}</Text>
-            <Text style={styles.statLabel}>Trial Users</Text>
-          </View>
+            <Text style={styles.statNumber}>{fullyAssignedClients}</Text>
+            <Text style={styles.statLabel}>Assigned Clients</Text>
+          </TouchableOpacity>
         </View>
 
         {/* System Alerts */}
@@ -201,6 +207,11 @@ export default function TodayAdminView() {
               <Text style={styles.actionText}>Invitations</Text>
             </TouchableOpacity>
             
+            <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToAssignments}>
+              <UserCheck size={20} color={colors.info} />
+              <Text style={styles.actionText}>Assignments</Text>
+            </TouchableOpacity>
+            
             <TouchableOpacity style={styles.actionButton}>
               <BarChart3 size={20} color={colors.success} />
               <Text style={styles.actionText}>Analytics</Text>
@@ -214,11 +225,6 @@ export default function TodayAdminView() {
             <TouchableOpacity style={styles.actionButton}>
               <Settings size={20} color={colors.error} />
               <Text style={styles.actionText}>System Settings</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.actionButton}>
-              <Shield size={20} color={colors.primary} />
-              <Text style={styles.actionText}>Security</Text>
             </TouchableOpacity>
           </View>
         </View>

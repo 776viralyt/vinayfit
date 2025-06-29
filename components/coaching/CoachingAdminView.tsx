@@ -18,7 +18,8 @@ import {
   ChartBar as BarChart3,
   Database,
   Search,
-  Filter
+  Filter,
+  UserCheck
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
@@ -37,6 +38,10 @@ export default function CoachingAdminView() {
 
   const handleNavigateToInvitations = () => {
     router.push('/admin/invitations');
+  };
+
+  const handleNavigateToAssignments = () => {
+    router.push('/admin/client-assignments');
   };
 
   return (
@@ -68,6 +73,14 @@ export default function CoachingAdminView() {
         >
           <Text style={[styles.tabText, selectedTab === 'users' && styles.activeTabText]}>
             Users
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tab, selectedTab === 'assignments' && styles.activeTab]}
+          onPress={() => setSelectedTab('assignments')}
+        >
+          <Text style={[styles.tabText, selectedTab === 'assignments' && styles.activeTabText]}>
+            Assignments
           </Text>
         </TouchableOpacity>
       </View>
@@ -129,6 +142,14 @@ export default function CoachingAdminView() {
                   <Text style={styles.actionDescription}>Invite new users to the platform</Text>
                 </TouchableOpacity>
                 
+                <TouchableOpacity style={styles.actionCard} onPress={handleNavigateToAssignments}>
+                  <View style={[styles.actionIcon, { backgroundColor: `${colors.info}15` }]}>
+                    <UserCheck size={24} color={colors.info} />
+                  </View>
+                  <Text style={styles.actionTitle}>Client Assignments</Text>
+                  <Text style={styles.actionDescription}>Assign trainers and nutritionists</Text>
+                </TouchableOpacity>
+                
                 <TouchableOpacity style={styles.actionCard}>
                   <View style={[styles.actionIcon, { backgroundColor: `${colors.success}15` }]}>
                     <BarChart3 size={24} color={colors.success} />
@@ -176,16 +197,16 @@ export default function CoachingAdminView() {
               
               <View style={styles.activityItem}>
                 <View style={styles.activityIcon}>
-                  <Settings size={16} color={colors.info} />
+                  <UserCheck size={16} color={colors.info} />
                 </View>
                 <View style={styles.activityInfo}>
-                  <Text style={styles.activityText}>System settings updated</Text>
+                  <Text style={styles.activityText}>Client assigned to trainer Mike Chen</Text>
                   <Text style={styles.activityTime}>2 hours ago</Text>
                 </View>
               </View>
             </View>
           </>
-        ) : (
+        ) : selectedTab === 'users' ? (
           <>
             {/* User Management Quick Access */}
             <View style={styles.card}>
@@ -222,6 +243,42 @@ export default function CoachingAdminView() {
                 <View style={styles.userStatItem}>
                   <Text style={styles.userStatNumber}>12</Text>
                   <Text style={styles.userStatLabel}>HR Staff</Text>
+                </View>
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            {/* Assignment Management */}
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Assignment Management</Text>
+              
+              <TouchableOpacity style={styles.quickActionButton} onPress={handleNavigateToAssignments}>
+                <UserCheck size={20} color={colors.primary} />
+                <Text style={styles.quickActionText}>Manage Client Assignments</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Assignment Stats */}
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Assignment Statistics</Text>
+              
+              <View style={styles.userStatsGrid}>
+                <View style={styles.userStatItem}>
+                  <Text style={styles.userStatNumber}>89</Text>
+                  <Text style={styles.userStatLabel}>Fully Assigned</Text>
+                </View>
+                <View style={styles.userStatItem}>
+                  <Text style={styles.userStatNumber}>124</Text>
+                  <Text style={styles.userStatLabel}>Have Trainer</Text>
+                </View>
+                <View style={styles.userStatItem}>
+                  <Text style={styles.userStatNumber}>98</Text>
+                  <Text style={styles.userStatLabel}>Have Nutritionist</Text>
+                </View>
+                <View style={styles.userStatItem}>
+                  <Text style={styles.userStatNumber}>32</Text>
+                  <Text style={styles.userStatLabel}>Unassigned</Text>
                 </View>
               </View>
             </View>

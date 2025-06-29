@@ -16,10 +16,12 @@ import {
   Plus,
   UserCheck,
   FileText,
-  Award
+  Award,
+  UserPlus
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
+import { router } from 'expo-router';
 
 export default function TodayHRView() {
   const colorScheme = useColorScheme();
@@ -29,6 +31,7 @@ export default function TodayHRView() {
   const [totalEmployees] = useState(156);
   const [todaysInterviews] = useState(4);
   const [completedInterviews] = useState(2);
+  const [fullyAssignedClients] = useState(89);
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -55,6 +58,10 @@ export default function TodayHRView() {
     { id: 2, task: 'Process new hire paperwork', count: 3 },
     { id: 3, task: 'Update employee handbook', count: 1 },
   ];
+
+  const handleNavigateToAssignments = () => {
+    router.push('/admin/client-assignments');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,13 +102,13 @@ export default function TodayHRView() {
             <Text style={styles.statLabel}>Total Employees</Text>
           </View>
           
-          <View style={styles.statCard}>
+          <TouchableOpacity style={styles.statCard} onPress={handleNavigateToAssignments}>
             <View style={[styles.statIcon, { backgroundColor: `${colors.success}15` }]}>
-              <TrendingUp size={24} color={colors.success} />
+              <UserCheck size={24} color={colors.success} />
             </View>
-            <Text style={styles.statNumber}>94%</Text>
-            <Text style={styles.statLabel}>Satisfaction Rate</Text>
-          </View>
+            <Text style={styles.statNumber}>{fullyAssignedClients}</Text>
+            <Text style={styles.statLabel}>Client Assignments</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Upcoming Interviews */}
@@ -183,14 +190,14 @@ export default function TodayHRView() {
               <Text style={styles.actionText}>New Employee</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton}>
-              <Award size={20} color={colors.success} />
-              <Text style={styles.actionText}>Performance</Text>
+            <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToAssignments}>
+              <UserPlus size={20} color={colors.success} />
+              <Text style={styles.actionText}>Assignments</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
-              <FileText size={20} color={colors.warning} />
-              <Text style={styles.actionText}>Reports</Text>
+              <Award size={20} color={colors.warning} />
+              <Text style={styles.actionText}>Performance</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
