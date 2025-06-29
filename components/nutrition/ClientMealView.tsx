@@ -8,21 +8,7 @@ import {
   Modal,
   TextInput,
 } from 'react-native';
-import { 
-  Apple, 
-  Plus, 
-  Calendar, 
-  Clock, 
-  Flame, 
-  Target, 
-  TrendingUp,
-  ChevronLeft,
-  ChevronRight,
-  Edit3,
-  MessageSquare,
-  Camera,
-  X
-} from 'lucide-react-native';
+import { Apple, Plus, Calendar, Clock, Flame, Target, TrendingUp, ChevronLeft, ChevronRight, CreditCard as Edit3, MessageSquare, Camera, X } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
 import { router } from 'expo-router';
