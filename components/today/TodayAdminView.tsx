@@ -7,9 +7,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Shield, Users, TrendingUp, TriangleAlert as AlertTriangle, Settings, ChartBar as BarChart3, Database, Activity } from 'lucide-react-native';
+import { 
+  Shield, 
+  Users, 
+  TrendingUp, 
+  TriangleAlert as AlertTriangle, 
+  Settings, 
+  ChartBar as BarChart3, 
+  Database, 
+  Activity,
+  Mail,
+  UserPlus,
+  Clock
+} from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
+import { router } from 'expo-router';
 
 export default function TodayAdminView() {
   const colorScheme = useColorScheme();
@@ -19,6 +32,8 @@ export default function TodayAdminView() {
   const [totalUsers] = useState(1247);
   const [activeUsers] = useState(892);
   const [systemHealth] = useState(98.5);
+  const [pendingInvitations] = useState(8);
+  const [trialUsers] = useState(23);
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -48,6 +63,14 @@ export default function TodayAdminView() {
       case 'info': return colors.info;
       default: return colors.textSecondary;
     }
+  };
+
+  const handleNavigateToUserManagement = () => {
+    router.push('/admin/user-management');
+  };
+
+  const handleNavigateToInvitations = () => {
+    router.push('/admin/invitations');
   };
 
   return (
@@ -83,7 +106,7 @@ export default function TodayAdminView() {
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
             <View style={[styles.statIcon, { backgroundColor: `${colors.primary}15` }]}>
-              <Users size={24} color={colors.primary} />
+              <Users size={20} color={colors.primary} />
             </View>
             <Text style={styles.statNumber}>{totalUsers.toLocaleString()}</Text>
             <Text style={styles.statLabel}>Total Users</Text>
@@ -91,10 +114,29 @@ export default function TodayAdminView() {
           
           <View style={styles.statCard}>
             <View style={[styles.statIcon, { backgroundColor: `${colors.success}15` }]}>
-              <Activity size={24} color={colors.success} />
+              <Activity size={20} color={colors.success} />
             </View>
             <Text style={styles.statNumber}>{activeUsers.toLocaleString()}</Text>
             <Text style={styles.statLabel}>Active Users</Text>
+          </View>
+        </View>
+
+        {/* User Management Stats */}
+        <View style={styles.statsContainer}>
+          <TouchableOpacity style={styles.statCard} onPress={handleNavigateToInvitations}>
+            <View style={[styles.statIcon, { backgroundColor: `${colors.warning}15` }]}>
+              <Mail size={20} color={colors.warning} />
+            </View>
+            <Text style={styles.statNumber}>{pendingInvitations}</Text>
+            <Text style={styles.statLabel}>Pending Invites</Text>
+          </TouchableOpacity>
+          
+          <View style={styles.statCard}>
+            <View style={[styles.statIcon, { backgroundColor: `${colors.info}15` }]}>
+              <Clock size={20} color={colors.info} />
+            </View>
+            <Text style={styles.statNumber}>{trialUsers}</Text>
+            <Text style={styles.statLabel}>Trial Users</Text>
           </View>
         </View>
 
@@ -149,9 +191,14 @@ export default function TodayAdminView() {
           <Text style={styles.cardTitle}>Quick Actions</Text>
           
           <View style={styles.actionGrid}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToUserManagement}>
               <Users size={20} color={colors.primary} />
               <Text style={styles.actionText}>User Management</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToInvitations}>
+              <UserPlus size={20} color={colors.warning} />
+              <Text style={styles.actionText}>Invitations</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
@@ -160,13 +207,18 @@ export default function TodayAdminView() {
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
-              <Database size={20} color={colors.warning} />
+              <Database size={20} color={colors.info} />
               <Text style={styles.actionText}>Database</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
               <Settings size={20} color={colors.error} />
               <Text style={styles.actionText}>System Settings</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionButton}>
+              <Shield size={20} color={colors.primary} />
+              <Text style={styles.actionText}>Security</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -248,16 +300,16 @@ const createStyles = (colors: any) => StyleSheet.create({
     elevation: 2,
   },
   statIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   statNumber: {
     fontFamily: 'Inter-Bold',
-    fontSize: 24,
+    fontSize: 20,
     color: colors.text,
     marginBottom: 4,
   },
@@ -373,7 +425,7 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    minWidth: '45%',
+    minWidth: '30%',
     backgroundColor: colors.surfaceSecondary,
     borderRadius: 8,
     padding: 16,
