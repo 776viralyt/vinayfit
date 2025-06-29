@@ -5,8 +5,12 @@ import { useColorScheme, getColors } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
-// Import existing profile view (will be used for all roles for now)
-import ProfileView from './profile-original';
+// Import role-specific profile views
+import ProfileClientView from '@/components/profile/ProfileClientView';
+import ProfileTrainerView from '@/components/profile/ProfileTrainerView';
+import ProfileNutritionistView from '@/components/profile/ProfileNutritionistView';
+import ProfileAdminView from '@/components/profile/ProfileAdminView';
+import ProfileHRView from '@/components/profile/ProfileHRView';
 
 export default function ProfileScreen() {
   const { userRole } = useUserRole();
@@ -27,8 +31,21 @@ export default function ProfileScreen() {
     );
   }
 
-  // For now, all roles see the same profile view
-  return <ProfileView />;
+  // Render appropriate profile view based on user role
+  switch (userRole) {
+    case 'client':
+      return <ProfileClientView />;
+    case 'trainer':
+      return <ProfileTrainerView />;
+    case 'nutritionist':
+      return <ProfileNutritionistView />;
+    case 'admin':
+      return <ProfileAdminView />;
+    case 'hr':
+      return <ProfileHRView />;
+    default:
+      return <ProfileClientView />;
+  }
 }
 
 const styles = StyleSheet.create({
