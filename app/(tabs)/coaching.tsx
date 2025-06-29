@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 // Import role-specific views
 import CoachingClientView from '@/components/coaching/CoachingClientView';
 import CoachingTrainerView from '@/components/coaching/CoachingTrainerView';
+import CoachingNutritionistView from '@/components/coaching/CoachingNutritionistView';
 import CoachingAdminView from '@/components/coaching/CoachingAdminView';
 
 export default function CoachingScreen() {
@@ -36,7 +37,7 @@ export default function CoachingScreen() {
     case 'trainer':
       return <CoachingTrainerView />;
     case 'nutritionist':
-      return <CoachingClientView />; // TODO: Create NutritionistCoachingView
+      return <CoachingNutritionistView />;
     case 'admin':
       return <CoachingAdminView />;
     case 'hr':

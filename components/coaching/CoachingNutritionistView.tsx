@@ -21,39 +21,7 @@ import {
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
-
-const clients = [
-  {
-    id: 1,
-    name: 'Maria Garcia',
-    lastMeal: 'Today',
-    compliance: 88,
-    status: 'active',
-    avatar: '👩‍🍳',
-  },
-  {
-    id: 2,
-    name: 'David Lee',
-    lastMeal: '2 days ago',
-    compliance: 65,
-    status: 'needs-attention',
-    avatar: '👨‍💼',
-  },
-  {
-    id: 3,
-    name: 'Anna Smith',
-    lastMeal: 'Yesterday',
-    compliance: 92,
-    status: 'active',
-    avatar: '👩‍🎨',
-  },
-];
-
-const upcomingConsultations = [
-  { id: 1, client: 'Maria Garcia', time: '11:00 AM', type: 'Meal Plan Review' },
-  { id: 2, client: 'David Lee', time: '1:30 PM', type: 'Initial Consultation' },
-  { id: 3, client: 'Anna Smith', time: '3:00 PM', type: 'Progress Check' },
-];
+import NutritionistClientListView from '../nutrition/NutritionistClientListView';
 
 export default function CoachingNutritionistView() {
   const colorScheme = useColorScheme();
@@ -61,6 +29,12 @@ export default function CoachingNutritionistView() {
   const styles = createStyles(colors);
 
   const [selectedTab, setSelectedTab] = useState('clients');
+
+  const upcomingConsultations = [
+    { id: 1, client: 'Maria Garcia', time: '11:00 AM', type: 'Meal Plan Review' },
+    { id: 2, client: 'David Lee', time: '1:30 PM', type: 'Initial Consultation' },
+    { id: 3, client: 'Anna Smith', time: '3:00 PM', type: 'Progress Check' },
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,94 +69,52 @@ export default function CoachingNutritionistView() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {selectedTab === 'clients' ? (
-          <>
-            {/* Quick Stats */}
-            <View style={styles.statsContainer}>
-              <View style={styles.statCard}>
-                <View style={[styles.statIcon, { backgroundColor: `${colors.primary}15` }]}>
-                  <Users size={20} color={colors.primary} />
-                </View>
-                <Text style={styles.statNumber}>18</Text>
-                <Text style={styles.statLabel}>Active Clients</Text>
-              </View>
-              
-              <View style={styles.statCard}>
-                <View style={[styles.statIcon, { backgroundColor: `${colors.success}15` }]}>
-                  <TrendingUp size={20} color={colors.success} />
-                </View>
-                <Text style={styles.statNumber}>87%</Text>
-                <Text style={styles.statLabel}>Avg Compliance</Text>
-              </View>
+      {selectedTab === 'clients' ? (
+        <NutritionistClientListView />
+      ) : (
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+          {/* Today's Consultations Overview */}
+          <LinearGradient
+            colors={colorScheme === 'dark' ? ['#0284C7', '#0891B2'] : ['#4FACFE', '#00F2FE']}
+            style={styles.overviewCard}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            <View style={styles.overviewContent}>
+              <Text style={styles.overviewLabel}>TODAY'S CONSULTATIONS</Text>
+              <Text style={styles.overviewNumber}>3/6</Text>
+              <Text style={styles.overviewMessage}>3 consultations remaining</Text>
             </View>
+          </LinearGradient>
 
-            {/* Client List */}
-            <Text style={styles.sectionTitle}>Your Clients</Text>
-            
-            {clients.map((client) => (
-              <TouchableOpacity key={client.id} style={styles.clientCard}>
-                <View style={styles.clientAvatar}>
-                  <Text style={styles.clientAvatarText}>{client.avatar}</Text>
-                </View>
-                
-                <View style={styles.clientInfo}>
-                  <Text style={styles.clientName}>{client.name}</Text>
-                  <Text style={styles.clientLastMeal}>Last meal logged: {client.lastMeal}</Text>
-                  
-                  <View style={styles.progressContainer}>
-                    <View style={styles.progressBackground}>
-                      <View 
-                        style={[
-                          styles.progressFill, 
-                          { 
-                            width: `${client.compliance}%`,
-                            backgroundColor: client.status === 'active' ? colors.success : colors.warning
-                          }
-                        ]} 
-                      />
-                    </View>
-                    <Text style={styles.progressText}>{client.compliance}%</Text>
-                  </View>
-                </View>
-                
-                <View style={styles.clientActions}>
-                  <TouchableOpacity style={styles.actionButton}>
-                    <MessageSquare size={16} color={colors.primary} />
-                  </TouchableOpacity>
-                  <View style={[
-                    styles.statusBadge,
-                    { backgroundColor: client.status === 'active' ? colors.success : colors.warning }
-                  ]}>
-                    <Text style={styles.statusText}>
-                      {client.status === 'active' ? 'On Track' : 'Needs Help'}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </>
-        ) : (
-          <>
-            {/* Today's Consultations Overview */}
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['#0284C7', '#0891B2'] : ['#4FACFE', '#00F2FE']}
-              style={styles.overviewCard}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              <View style={styles.overviewContent}>
-                <Text style={styles.overviewLabel}>TODAY'S CONSULTATIONS</Text>
-                <Text style={styles.overviewNumber}>3/6</Text>
-                <Text style={styles.overviewMessage}>3 consultations remaining</Text>
+          {/* Quick Stats */}
+          <View style={styles.statsContainer}>
+            <View style={styles.statCard}>
+              <View style={[styles.statIcon, { backgroundColor: `${colors.primary}15` }]}>
+                <Users size={20} color={colors.primary} />
               </View>
-            </LinearGradient>
+              <Text style={styles.statNumber}>18</Text>
+              <Text style={styles.statLabel}>Active Clients</Text>
+            </View>
+            
+            <View style={styles.statCard}>
+              <View style={[styles.statIcon, { backgroundColor: `${colors.success}15` }]}>
+                <TrendingUp size={20} color={colors.success} />
+              </View>
+              <Text style={styles.statNumber}>87%</Text>
+              <Text style={styles.statLabel}>Avg Compliance</Text>
+            </View>
+          </View>
 
-            {/* Upcoming Consultations */}
-            <Text style={styles.sectionTitle}>Upcoming Consultations</Text>
+          {/* Upcoming Consultations */}
+          <View style={styles.card}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>Upcoming Consultations</Text>
+              <Calendar size={24} color={colors.primary} />
+            </View>
             
             {upcomingConsultations.map((consultation) => (
-              <TouchableOpacity key={consultation.id} style={styles.consultationCard}>
+              <TouchableOpacity key={consultation.id} style={styles.consultationItem}>
                 <View style={styles.consultationTime}>
                   <Clock size={16} color={colors.textSecondary} />
                   <Text style={styles.consultationTimeText}>{consultation.time}</Text>
@@ -196,11 +128,15 @@ export default function CoachingNutritionistView() {
                 </TouchableOpacity>
               </TouchableOpacity>
             ))}
-          </>
-        )}
+            
+            <TouchableOpacity style={styles.viewAllButton}>
+              <Text style={styles.viewAllText}>View All Consultations</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={{ height: 100 }} />
-      </ScrollView>
+          <View style={{ height: 100 }} />
+        </ScrollView>
+      )}
 
       {/* Floating Action Button */}
       <TouchableOpacity style={styles.fab}>
@@ -268,6 +204,33 @@ const createStyles = (colors: any) => StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  overviewCard: {
+    marginHorizontal: 20,
+    marginBottom: 16,
+    borderRadius: 16,
+    padding: 24,
+  },
+  overviewContent: {
+    alignItems: 'flex-start',
+  },
+  overviewLabel: {
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.8)',
+    letterSpacing: 1,
+    marginBottom: 8,
+  },
+  overviewNumber: {
+    fontFamily: 'Inter-Bold',
+    fontSize: 32,
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  overviewMessage: {
+    fontFamily: 'Inter-Medium',
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
   statsContainer: {
     flexDirection: 'row',
     paddingHorizontal: 20,
@@ -306,138 +269,35 @@ const createStyles = (colors: any) => StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
   },
-  sectionTitle: {
+  card: {
+    backgroundColor: colors.surface,
+    marginHorizontal: 20,
+    marginBottom: 16,
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  cardTitle: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 18,
     color: colors.text,
-    marginHorizontal: 20,
-    marginBottom: 12,
-    marginTop: 8,
   },
-  clientCard: {
-    backgroundColor: colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 12,
-    borderRadius: 12,
-    padding: 16,
+  consultationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  clientAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: colors.surfaceSecondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  clientAvatarText: {
-    fontSize: 20,
-  },
-  clientInfo: {
-    flex: 1,
-  },
-  clientName: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 4,
-  },
-  clientLastMeal: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  progressBackground: {
-    flex: 1,
-    height: 6,
-    backgroundColor: colors.borderLight,
-    borderRadius: 3,
-    marginRight: 8,
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  progressText: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 12,
-    color: colors.textSecondary,
-    minWidth: 30,
-  },
-  clientActions: {
-    alignItems: 'center',
-    gap: 8,
-  },
-  actionButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.surfaceSecondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  statusBadge: {
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  statusText: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 10,
-    color: '#FFFFFF',
-  },
-  overviewCard: {
-    marginHorizontal: 20,
-    marginBottom: 16,
-    borderRadius: 16,
-    padding: 24,
-  },
-  overviewContent: {
-    alignItems: 'flex-start',
-  },
-  overviewLabel: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.8)',
-    letterSpacing: 1,
-    marginBottom: 8,
-  },
-  overviewNumber: {
-    fontFamily: 'Inter-Bold',
-    fontSize: 32,
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  overviewMessage: {
-    fontFamily: 'Inter-Medium',
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
-  },
-  consultationCard: {
-    backgroundColor: colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 12,
-    borderRadius: 12,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 1,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
   },
   consultationTime: {
     flexDirection: 'row',
@@ -467,6 +327,16 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   consultationAction: {
     padding: 8,
+  },
+  viewAllButton: {
+    marginTop: 12,
+    paddingVertical: 8,
+    alignItems: 'center',
+  },
+  viewAllText: {
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 14,
+    color: colors.primary,
   },
   fab: {
     position: 'absolute',
