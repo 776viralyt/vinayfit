@@ -7,16 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { 
-  Mail, 
-  Clock, 
-  CheckCircle, 
-  XCircle, 
-  RefreshCw, 
-  Copy,
-  Calendar,
-  User
-} from 'lucide-react-native';
+import { Mail, Clock, CircleCheck as CheckCircle, Circle as XCircle, RefreshCw, Copy, Calendar, User } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme, getColors } from '../../hooks/useColorScheme';
 import { UserRole } from '../../contexts/UserContext';
